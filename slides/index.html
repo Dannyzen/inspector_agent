@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Inspector Agent</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/dracula.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Inspector Agent</h1>
+					<p>A multi-agent system for network security</p>
+				</section>
+				<section>
+					<h2>The Problem</h2>
+					<p>How can we proactively monitor a system for malicious network activity?</p>
+				</section>
+				<section>
+					<section>
+						<h2>The Solution</h2>
+						<p>A multi-agent system built with the Google Agent Development Kit (ADK) that can:</p>
+						<ul>
+							<li>Inspect network connections</li>
+							<li>Analyze processes for threats</li>
+							<li>Provide interactive remediation</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Agentic Architecture</h2>
+						<p>The Inspector Agent is composed of multiple specialized agents that work together:</p>
+						<ul>
+							<li><b>Inspector:</b> Monitors network connections.</li>
+							<li><b>Threat Analyzer:</b> Assesses the risk of each process using an LLM.</li>
+							<li><b>Remediation Tool:</b> Kills processes that are deemed high-risk.</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>How it Works</h2>
+						<ol>
+							<li>The `Inspector` agent scans for listening processes.</li>
+							<li>The `ThreatAnalyzer` agent assesses the risk of each process using an LLM.</li>
+							<li>If a threat is detected, the `Remediation` tool is used to kill the process.</li>
+						</ol>
+					</section>
+					<section>
+						<h2>Novel ADK Implementation</h2>
+						<p>The Inspector Agent demonstrates several key features of the ADK:</p>
+						<ul>
+							<li><b>Multi-Agent Systems:</b> The agent is composed of multiple specialized agents that collaborate to solve a complex problem.</li>
+							<li><b>Stateful Agents:</b> The agent uses session state to track processes and maintain a history of network activity.</li>
+							<li><b>Tool Use:</b> The agent uses a custom tool to interact with the system and remediate threats.</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Multi-Agent Collaboration</h2>
+						<p>The `InspectorAgent` is a `SequentialAgent` that orchestrates the workflow between the `Inspector` and `ThreatAnalyzer` agents. This demonstrates how the ADK can be used to build complex systems from smaller, reusable components.</p>
+						<p>The `SequentialAgent` ensures that the agents are executed in a specific order, which is crucial for the proper functioning of the `inspector_agent`. The `Inspector` must run first to gather the process information, which is then passed to the `ThreatAnalyzer` for analysis.</p>
+					</section>
+					<section>
+						<h2>Stateful Process Tracking</h2>
+						<p>The `Inspector` agent uses the `context.session.state` to keep track of the processes it has already seen. This allows it to only report on new processes, which is a more efficient way to monitor for threats.</p>
+					</section>
+					<section>
+						<h2>Dynamic Remediation</h2>
+						<p>The `ThreatAnalyzer` agent uses the `remediation_tool` to kill processes that are deemed high-risk. This demonstrates how the ADK can be used to build agents that can not only reason about problems, but also take action to solve them.</p>
+					</section>
+					<section>
+						<h2>Agent Types</h2>
+						<ul>
+							<li><b>`BaseAgent`:</b> The `Inspector` is a `BaseAgent`, which is the simplest agent type. It's used for simple, single-purpose tasks like scanning for processes.</li>
+							<li><b>`LlmAgent`:</b> The `ThreatAnalyzer` is an `LlmAgent`, which is used to interact with a language model. This allows the agent to perform complex reasoning tasks, like assessing the risk of a process.</li>
+							<li><b>`SequentialAgent`:</b> The `InspectorAgent` is a `SequentialAgent`, which is used to orchestrate a series of sub-agents. This allows us to create a complex workflow from smaller, reusable components.</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h2>How to Use It</h2>
+					<ol>
+						<li>Start the agent: <code>./.venv/bin/python3 main.py</code></li>
+						<li>Open a port to test: <code>nc -l 8080</code></li>
+						<li>Observe the output in the agent's terminal.</li>
+					</ol>
+				</section>
+				<section>
+					<h2>Example Scenarios</h2>
+					<ul>
+						<li>Detecting and killing a malicious process that has opened a port.</li>
+						<li>Identifying and whitelisting a legitimate process that is not yet known to the system.</li>
+						<li>Monitoring a server for unauthorized services.</li>
+					</ul>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
