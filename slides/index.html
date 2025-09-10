@@ -39,7 +39,7 @@
 						<p>The Inspector Agent is composed of multiple specialized agents that work together:</p>
 						<ul>
 							<li><b>Inspector:</b> Monitors network connections.</li>
-							<li><b>Threat Analyzer:</b> Assesses the risk of each process using an LLM.</li>
+							<li><b>Threat Analyzer:</b> Assesses the risk of each process using a rules-based engine.</li>
 							<li><b>Remediation Tool:</b> Kills processes that are deemed high-risk.</li>
 						</ul>
 					</section>
@@ -49,9 +49,20 @@
 						<h2>How it Works</h2>
 						<ol>
 							<li>The `Inspector` agent scans for listening processes.</li>
-							<li>The `ThreatAnalyzer` agent assesses the risk of each process using an LLM.</li>
+							<li>The `ThreatAnalyzer` agent assesses the risk of each process using a set of predefined rules.</li>
 							<li>If a threat is detected, the `Remediation` tool is used to kill the process.</li>
 						</ol>
+					</section>
+					<section>
+						<h2>Live Terminal Output</h2>
+						<p>The agent provides clear, table-formatted output in the terminal.</p>
+						<pre><code data-line-numbers="1-5" style="max-height: 600px;">
+PID        USER       COMMAND                                  DESCRIPTION                                                              STATUS
+------------------------------------------------------------------------------------------------------------------------------------------------
+429370     danny      nc -l 12345                              nc (netcat) is a versatile networking utility used for reading from and... Normal
+432717     danny      nc -l 8083                               This process is listening on a port designated for a threat simulation.    THREAT
+		Action: Process 432717 terminated.
+						</code></pre>
 					</section>
 					<section>
 						<h2>Novel ADK Implementation</h2>
@@ -79,7 +90,7 @@
 						<h2>Agent Types</h2>
 						<ul>
 							<li><b>`BaseAgent`:</b> The `Inspector` is a `BaseAgent`, which is the simplest agent type. It's used for simple, single-purpose tasks like scanning for processes.</li>
-							<li><b>`LlmAgent`:</b> The `ThreatAnalyzer` is an `LlmAgent`, which is used to interact with a language model. This allows the agent to perform complex reasoning tasks, like assessing the risk of a process.</li>
+							<li><b>Rules-Based Agent:</b> The `ThreatAnalyzer` is a standard Python class that uses a dictionary of rules to identify threats. This is a simple and effective approach for known threats.</li>
 							<li><b>`SequentialAgent`:</b> The `InspectorAgent` is a `SequentialAgent`, which is used to orchestrate a series of sub-agents. This allows us to create a complex workflow from smaller, reusable components.</li>
 						</ul>
 					</section>
@@ -88,8 +99,8 @@
 					<h2>How to Use It</h2>
 					<ol>
 						<li>Start the agent: <code>./.venv/bin/python3 main.py</code></li>
-						<li>Open a port to test: <code>nc -l 8080</code></li>
-						<li>Observe the output in the agent's terminal.</li>
+						<li>Simulate a threat: <code>nc -l 8083</code></li>
+						<li>Observe the output in the agent's terminal as the threat is detected and remediated.</li>
 					</ol>
 				</section>
 				<section>
