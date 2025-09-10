@@ -40,14 +40,16 @@ This document explains how to run the Inspector Agent project.
 
 ## Simulating a Threat
 
-To test the `ThreatAnalyzer` agent, you can simulate a threat by running a process that is likely to be flagged as malicious. In this example, we will simulate a reverse shell.
+To test the `ThreatAnalyzer` agent, you can simulate a threat by running a process that is flagged as malicious.
 
-1.  **Run the reverse shell command:**
+1.  **Run the simulated threat command:**
+
+    In a separate terminal, run the following command:
 
     ```bash
-    nc -e /bin/bash 127.0.0.1 8081
+    nc -l 8083
     ```
 
 2.  **Observe the output:**
 
-    The `ThreatAnalyzer` agent should identify the `nc` process with the `-e` flag as a potential threat and the `Remediation` tool should kill the process.
+    The `ThreatAnalyzer` agent will identify the `nc` process listening on port 8083 as a potential threat, display it in the output table, and the `Remediation` tool will terminate the process.
